@@ -1,19 +1,26 @@
-import mysql.connector
-import bcrypt
+import os
 import re
 import datetime
+import bcrypt
 
 import mysql.connector
 from mysql.connector import Error
-
+Replace the whole get_db_connection() function (top of the file) with:
 def get_db_connection():
+    """Connect to Banquet_db using credentials from environment variables.
+
+    Set once on your machine (Windows PowerShell):
+        setx MYSQL_USER "root"
+        setx MYSQL_ROOT_PW "your_password_here"
+    Then restart the terminal before running the app.
+    """
     try:
         conn = mysql.connector.connect(
-            user='root', 
-            password='REMOVED_PASSWORD', 
-            host='127.0.0.1',
-            database='Banquet_db',
-            autocommit=True  # ✅ CRITICAL: Enable autocommit by default
+            user=os.environ.get('MYSQL_USER', 'root'),
+            password=os.environ.get('MYSQL_ROOT_PW', ''),
+            host=os.environ.get('MYSQL_HOST', '127.0.0.1'),
+            database=os.environ.get('MYSQL_DB', 'Banquet_db'),
+            autocommit=True  # CRITICAL: Enable autocommit by default
         )
         return conn
     except Error as err:
