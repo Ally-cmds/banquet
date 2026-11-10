@@ -5,7 +5,7 @@ import bcrypt
 
 import mysql.connector
 from mysql.connector import Error
-Replace the whole get_db_connection() function (top of the file) with:
+
 def get_db_connection():
     """Connect to Banquet_db using credentials from environment variables.
 
